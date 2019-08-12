@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"net/http"
 	"test/application/models"
 	"test/application/utils"
 	"test/core/controller"
@@ -15,12 +14,14 @@ type DemoController struct {
 }
 
 func init() {
-	Demo = &DemoController{controller.InitController()}
+	Demo = &DemoController{*(controller.GetControllerPoint())}
 }
 
-func (demo *DemoController) Test(w http.ResponseWriter, r *http.Request) {
+func (this *DemoController) Test2() {
+	fmt.Println("Test2执行")
+}
 
-	fmt.Println((*demo).Data)
+func (this *DemoController) Test() {
 
 	rows, err := models.DemoModel.DB.Query("select name,hosts from api where id = ? ", 1)
 	defer rows.Close()
@@ -33,7 +34,7 @@ func (demo *DemoController) Test(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 		jsonString, _ := utils.EncodeJson(DemoController{})
-		fmt.Fprint(w, jsonString, hosts)
+		fmt.Println(jsonString)
 	}
 
 	err = rows.Err()

@@ -6,5 +6,6 @@ import (
 )
 
 func init() {
-	router.NewRouter("GET", "/", controllers.Demo.Test).Register()
+	var routerPoint = &router.Router{}
+	routerPoint.Register("/", controllers.Demo.Test)
 }
