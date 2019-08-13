@@ -3,24 +3,18 @@ package controller
 // 指针
 var BaseController *Controller
 
+// controller提供一些快捷便利的输出与模板服务
 type Controller struct {
-	Data           map[interface{}]interface{}
-	GetData        map[interface{}]interface{}
-	PostData       map[interface{}]interface{}
-	controllerName string
-	methodName     string
 }
 
-func GetControllerPoint() *Controller {
-	if BaseController == nil {
-		BaseController = new(Controller)
-		BaseController.Init()
-	}
-	return BaseController
+// Input提供web数据的绑定
+var ContextInput *Input
+
+type Input struct {
+	GetParam  map[string]interface{}
+	PostParam map[string]interface{}
 }
 
-func (c *Controller) Init() {
-	c.Data = map[interface{}]interface{}{}
-	c.GetData = map[interface{}]interface{}{}
-	c.PostData = map[interface{}]interface{}{}
+func NewInput() *Input {
+	return new(Input)
 }

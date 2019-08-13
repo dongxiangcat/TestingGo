@@ -14,7 +14,7 @@ type DemoController struct {
 }
 
 func init() {
-	Demo = &DemoController{*(controller.GetControllerPoint())}
+	Demo = &DemoController{}
 }
 
 func (this *DemoController) Test2() {
@@ -22,6 +22,9 @@ func (this *DemoController) Test2() {
 }
 
 func (this *DemoController) Test() {
+
+	fmt.Println(controller.ContextInput.GetParam["aa"])
+	fmt.Println(controller.ContextInput.PostParam["a"])
 
 	rows, err := models.DemoModel.DB.Query("select name,hosts from api where id = ? ", 1)
 	defer rows.Close()

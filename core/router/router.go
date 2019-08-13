@@ -18,46 +18,44 @@ type Router struct {
 }
 
 type ControllerRegister struct {
-	BaseController *controller.Controller
-	Method         string
-	Hander         interface{}
+	Method string
+	Hander interface{}
 }
 
 func (cr *ControllerRegister) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("router执行了ServeHTTP")
 	if cr.Method == r.Method || cr.Method == "*" {
 
-		fmt.Println(cr.BaseController)
-		cr.BaseController.Init()
+		// 请求参数
+		controller.ContextInput = controller.NewInput()
+		controller.ContextInput.GetParam = map[string]interface{}{}
+		controller.ContextInput.PostParam = map[string]interface{}{}
+
 		// GET 参数赋值
 		u, _ := url.Parse(r.URL.String())
 		getForm, _ := url.ParseQuery(u.RawQuery)
+
 		for k, param := range getForm {
-			cr.BaseController.GetData[k] = param
+			controller.ContextInput.GetParam[k] = param
 		}
 
 		// POST参数赋值
 		r.ParseForm()
 		postForm := r.PostForm
 		for k, param := range postForm {
-			cr.BaseController.PostData[k] = param
+			controller.ContextInput.PostParam[k] = param
 		}
-
 		// 调用方法
 		f := reflect.ValueOf(cr.Hander)
 		in := make([]reflect.Value, 0)
-		// for k, param := range queryForm {
-		// 	in[k] = reflect.ValueOf(param)
-		// }
 		f.Call(in)
-
 	} else {
 		fmt.Fprintln(w, "Method错误")
 	}
 }
 
 func NewControllerRegister(method string, hander interface{}) *ControllerRegister {
-	return &ControllerRegister{controller.GetControllerPoint(), method, hander}
+	return &ControllerRegister{method, hander}
 }
 
 func (r *Router) RegisterWithMethod(path string, hander interface{}, method string) {
