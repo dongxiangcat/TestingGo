@@ -5,7 +5,7 @@ import (
 )
 
 type demoModel struct {
-	model.Model
+	model.DBModel
 }
 
 // demoModel指针

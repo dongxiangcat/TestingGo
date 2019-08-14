@@ -1,5 +1,8 @@
 package model
 
+/**
+ * 普通连接数据库操作
+ */
 import (
 	"database/sql"
 	"fmt"
@@ -7,14 +10,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Model struct {
+type DBModel struct {
 	DB    *sql.DB
 	Table string
 }
 
-func CreateModel(Table string) Model {
+func CreateModel(Table string) DBModel {
 
-	return Model{createConnect(), Table}
+	return DBModel{createConnect(), Table}
 }
 
 // 单例connect

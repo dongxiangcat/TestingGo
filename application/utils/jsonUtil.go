@@ -1,17 +1,15 @@
 package utils
 
 import (
-	"bytes"
 	"encoding/json"
 	_ "net/http"
 )
 
-func EncodeJson(v interface{}) ([]byte, error) {
-	var buf bytes.Buffer
-	encoder := json.NewEncoder(&buf)
-	encoder.SetEscapeHTML(false)
-	if err := encoder.Encode(v); err != nil {
-		return nil, err
+/* 所有类型转为JSON */
+func EncodeJson(v interface{}) string {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return ""
 	}
-	return buf.Bytes(), nil
+	return string(b)
 }

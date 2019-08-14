@@ -7,5 +7,5 @@ import (
 
 func init() {
 	var routerPoint = &router.Router{}
-	routerPoint.Register("/", controllers.Demo.Test)
+	routerPoint.Register("/api/create", controllers.Api.Create)
 }

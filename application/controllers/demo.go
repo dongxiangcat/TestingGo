@@ -36,7 +36,7 @@ func (this *DemoController) Test() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		jsonString, _ := utils.EncodeJson(DemoController{})
+		jsonString := utils.EncodeJson(DemoController{})
 		fmt.Println(jsonString)
 	}
 
