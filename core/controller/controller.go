@@ -1,8 +1,9 @@
 package controller
 
 import (
-	"fmt"
+	//	"fmt"
 	"net/http"
+	"strconv"
 )
 
 // controller提供一些快捷便利的输出与模板服务
@@ -17,6 +18,18 @@ func (c *Controller) GetString(key string) string {
 	return temp.(string)
 }
 
+func (c *Controller) GetInt(key string) int {
+	var temp interface{} = ContextInput.GetParam[key]
+	if temp == nil {
+		return 0
+	}
+	res, err := strconv.Atoi(temp.(string))
+	if err != nil {
+		return 0
+	}
+	return res
+}
+
 func (c *Controller) PostString(key string) string {
 	var temp interface{} = ContextInput.PostParam[key]
 	if temp == nil {
@@ -26,7 +39,9 @@ func (c *Controller) PostString(key string) string {
 }
 
 func (c *Controller) Echo(param interface{}) {
-	fmt.Fprintf(ContextOutPut.w, "%s", param)
+	ContextOutPut.w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	ContextOutPut.w.Header().Set("Content-Language", "zh-CN")
+	ContextOutPut.w.Write([]byte(param.(string)))
 }
 
 // Input提供web数据的绑定

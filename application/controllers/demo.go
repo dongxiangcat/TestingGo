@@ -18,7 +18,7 @@ func init() {
 }
 
 func (this *DemoController) Test2() {
-	fmt.Println("Test2执行")
+	this.Echo("<h1>test2</h1>")
 }
 
 func (this *DemoController) Test() {

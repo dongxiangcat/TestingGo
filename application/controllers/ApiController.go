@@ -32,8 +32,8 @@ func (this *ApiController) Create() {
 	hosts := this.PostString("hosts")
 	pathinfo := this.PostString("pathinfo")
 
-	apiModel := entities.Api{Name: name, Desc: desc, Hosts: hosts, Pathinfo: pathinfo}
-	_, err := models.ApiOrm.Insert(&apiModel)
+	apiData := entities.Api{Name: name, Desc: desc, Hosts: hosts, Pathinfo: pathinfo}
+	_, err := models.ApiOrm.Insert(&apiData)
 
 	var jsonString string
 	if err == nil {
@@ -43,4 +43,20 @@ func (this *ApiController) Create() {
 		jsonString = utils.EncodeJson(vo.Error(1, "插入失败"))
 	}
 	this.Echo(jsonString)
+}
+
+func (this *ApiController) List() {
+	draw := this.GetInt("draw")
+	start := this.GetInt("start")
+	length := this.GetInt("length")
+
+	list := make([]entities.Api, 0)
+	models.ApiOrm.Limit(length, start).Find(&list)
+
+	api := new(entities.Api)
+	total, _ := models.ApiOrm.Count(api)
+
+	// DataTable 返回格式
+
+	this.Echo(utils.EncodeJson(vo.DataTable(draw, list, int(total))))
 }

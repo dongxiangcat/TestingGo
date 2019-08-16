@@ -10,6 +10,7 @@ type Api struct {
 	Desc       string    `xorm:"varchar(255) notnull"`
 	Hosts      string    `xorm:"varchar(255) notnull"`
 	Pathinfo   string    `xorm:"varchar(255) notnull"`
+	Method     string    `xorm:"varchar(10) notnull"`
 	CreateTime time.Time `xorm:"created"`
 	UpdateTime time.Time `xorm:"updated"`
 }

@@ -13,3 +13,8 @@ func EncodeJson(v interface{}) string {
 	}
 	return string(b)
 }
+
+/* json字符串转为各种类型 */
+func DecodeJson(bytes []byte, v interface{}) {
+	json.Unmarshal(bytes, v)
+}
