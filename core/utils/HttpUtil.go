@@ -24,7 +24,7 @@ func Get(uri string, data map[string]interface{}) string {
 	var form url.Values = url.Values{}
 
 	for key, value := range data {
-		form.Add(key, value.(string))
+		form.Add(key, ToString(value))
 	}
 
 	if strings.Contains(uri, "?") {
@@ -53,7 +53,7 @@ func Post(uri string, data map[string]interface{}) string {
 
 	var form url.Values = url.Values{}
 	for key, value := range data {
-		form.Add(key, value.(string))
+		form.Add(key, ToString(value))
 	}
 
 	formBody := bytes.NewBufferString(form.Encode())
